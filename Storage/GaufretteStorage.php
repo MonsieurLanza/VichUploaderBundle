@@ -53,8 +53,12 @@ class GaufretteStorage extends AbstractStorage
         if ($filesystem->getAdapter() instanceof MetadataSupporter) {
             $filesystem->getAdapter()->setMetadata($path, ['contentType' => $file->getMimeType()]);
         }
-
-        $filesystem->write($path, file_get_contents($file->getPathname()), true);
+        $handle = fopen($file->getPathName(), 'r');
+        try {
+            $filesystem->write($path, file_get_contents($file->getPathname()), true);
+        } finally {
+            fclose($handle);
+        }
     }
 
     /**
