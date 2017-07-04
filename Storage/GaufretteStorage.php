@@ -57,7 +57,7 @@ class GaufretteStorage extends AbstractStorage
         $handle = fopen($file->getPathName(), 'r');
 
         try {
-            $filesystem->write($path, file_get_contents($file->getPathname()), true);
+            $filesystem->write($path, $handle, true);
         } finally {
             fclose($handle);
         }
